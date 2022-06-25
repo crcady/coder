@@ -62,3 +62,8 @@ export const mapApiErrorToFieldErrors = (apiErrorResponse: ApiErrorResponse): Fi
  */
 export const getErrorMessage = (error: Error | ApiError | unknown, defaultMessage: string): string =>
   isApiError(error) ? error.response.data.message : error instanceof Error ? error.message : defaultMessage
+
+export const getValidationErrorMessage = (error: Error | ApiError | unknown): string => {
+  const validationErrors = isApiError(error) && error.response.data.validations ? error.response.data.validations : []
+  return validationErrors.map((error) => error.detail).join("\n")
+}
